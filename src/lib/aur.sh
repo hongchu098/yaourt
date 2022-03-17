@@ -3,6 +3,9 @@
 # aur.sh : deals with AUR
 # This file is part of Yaourt (http://archlinux.fr/yaourt-en)
 
+# Modified by hongchu098
+
+
 AUR_PKG_URL="$AURURL/packages/"
 AUR_INSTALLED_PKGS=()
 
