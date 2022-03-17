@@ -29,8 +29,12 @@ aur_get_pkgbuild() {
 	else
 		[[ -z "$pkgurl" ]] && pkgurl=$(pkgquery -Aif "%u" "$pkg")
 		if [[ ! "$pkgurl" ]] || ! curl_fetch -fs "$pkgurl" -o "$pkg.tar.gz"; then
-			error $(_gettext '%s not found in AUR.' "$pkg");
-			return 1;
+			local basepkg=$(pkgquery -Aif "%b" "$pkg")
+			pkgurl=$(pkgquery -Aif "%u" "$basepkg")
+			if [[ ! "$pkgurl" ]] || ! curl_fetch -fs "$pkgurl" -o "$pkg.tar.gz"; then
+				error $(_gettext '%s not found in AUR.' "$pkg");
+				return 1;
+			fi
 		fi
 		bsdtar --strip-components 1 -xvf "$pkg.tar.gz"
 		rm "$pkg.tar.gz"
